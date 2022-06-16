@@ -5,7 +5,6 @@ DELETE_COLUMNS = [
     "Recording timestamp",
     "Computer timestamp",
     "Sensor",
-    "Participant name",
     "Recording name",
     "Recording start time",
     "Average calibration accuracy (mm)",
