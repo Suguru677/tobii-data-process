@@ -34,11 +34,14 @@ class TobiiDataProcess:
         df_groupby = self.tobii_data_df.groupby(self.groupby_column_name)
 
         for group_name, df in df_groupby:
-            self.divided_data[group_name] = df
+            participant_name = df["Participant name"].iloc[0]
+            key = f"{group_name}_{participant_name}"
+            print(f"divided: {key}")
+            self.divided_data[key] = df
 
     def tobii_data_format(self, delete_columns: List = DELETE_COLUMNS, delete_stimulus_name_list: List = ["Eyetracker Calibration", "Text"]):
 
-        for group_name, df in self.divided_data.items():
+        for key, df in self.divided_data.items():
             tobii_data = df.dropna(subset="Presented Stimulus name")
             tobii_data = tobii_data[~tobii_data["Presented Stimulus name"].isin(delete_stimulus_name_list)]
 
@@ -56,15 +59,17 @@ class TobiiDataProcess:
 
             tobii_data.insert(0, "time", time_stamps)
 
-            self.divided_data[group_name] = tobii_data
+            self.divided_data[key] = tobii_data
+            print(f"formated: {key}")
 
     def save(self, save_folder_path: str = "./divided_data"):
 
-        for group_name, df in self.divided_data.items():
-
-            save_file_name = f"{group_name}.csv"
+        for key, df in self.divided_data.items():
+            
+            save_file_name = f"{key}.csv"
             save_file_path = os.path.join(save_folder_path, save_file_name)
             df.to_csv(save_file_path, index=False)
+            print(f"saved: {save_file_name}")
 
 
 def read_data(**kargs):
