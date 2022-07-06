@@ -2,7 +2,7 @@
 
 # install
 ```
-pip install git+https://github.com/Suguru677/tobii-data-process
+pip install git+https://github.com/shichiseki/tobii-data-process
 ```
 
 # Example
